@@ -5,7 +5,11 @@ import { useCallback } from "react";
 const Counter = () => {
   const dispatch = useDispatch();
   const counter = useSelector((state) => state.counter);
-  const toggleCounterHandler = () => {};
+  const showCounter = useSelector((state) => state.showCounter);
+
+  const toggleCounterHandler = () => {
+    dispatch({ type: "TOGGLE" });
+  };
 
   const incrementHandler = useCallback(() => {
     const action = { type: "INCREMENT" };
@@ -16,12 +20,17 @@ const Counter = () => {
     () => dispatch({ type: "DECREMENT" }),
     [dispatch]
   );
+
+  const increaseHandler = () => {
+    dispatch({ type: "INCREASE", amount: 5 });
+  };
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <div className={classes.value}>{counter}</div>
+      {showCounter && <div className={classes.value}>{counter}</div>}
       <button onClick={decrementHandler}>-</button>
       <button onClick={incrementHandler}>+</button>
+      <button onClick={increaseHandler}>Increase</button>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
     </main>
   );
